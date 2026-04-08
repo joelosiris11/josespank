@@ -1,46 +1,71 @@
-# Spank
+# Spank 👋
 
-macOS dashboard for [spank](https://github.com/charmbracelet/spank) — plays audio when it detects a slap on your Apple Silicon laptop via the built-in accelerometer.
+Dashboard para [spank](https://github.com/charmbracelet/spank) — suena un audio cada vez que le das un golpe a tu MacBook Apple Silicon, usando el acelerómetro integrado.
 
-## Requirements
+> **Solo funciona en Apple Silicon (M1/M2/M3/M4) con macOS 14+**
 
-- macOS 14+ (Apple Silicon)
-- Xcode Command Line Tools: `xcode-select --install`
+---
 
-## Install (from release)
+## Instalación rápida
 
-1. Download `SpankApp.dmg` from [Releases](../../releases)
-2. Open the DMG and drag `SpankApp` to Applications
-3. Right-click → **Open** (to bypass Gatekeeper the first time)
-4. Click **Setup** in the app — enters your password once, never again
+### 1. Descarga el DMG
 
-## Build from source
+Ve a [Releases](../../releases) y descarga `SpankApp.dmg`
+
+### 2. Instala la app
+
+Abre el DMG y arrastra `SpankApp` a tu carpeta de Aplicaciones.
+
+### 3. Abre por primera vez (Gatekeeper)
+
+Como la app no está firmada en la App Store, macOS la bloquea la primera vez. Para abrirla:
+
+**Opción A — Click derecho:**
+> Click derecho sobre `SpankApp` → **Abrir** → **Abrir** en el diálogo
+
+**Opción B — Terminal:**
+```bash
+xattr -cr /Applications/SpankApp.app
+```
+
+### 4. Setup (una sola vez)
+
+Al abrir la app verás un banner amarillo. Click en **Setup**, ingresa tu contraseña **una sola vez** y listo — nunca más te la pedirá.
+
+Esto instala el motor de spank en `/usr/local/bin/spank` y configura los permisos necesarios para el acelerómetro.
+
+---
+
+## Modos
+
+| Modo | Descripción |
+|------|-------------|
+| **Normal** | Sonidos por defecto |
+| **Sexy** | Intensidad escalada |
+| **Halo** | Clips de la soundtrack de Halo |
+| **Lizard** | Como Sexy pero lagarto |
+| **Custom** | Tus propios MP3s (incluye yamete-kudasai 🇯🇵) |
+
+## Configuración
+
+- **Sensitivity** — qué tan fuerte tienes que golpear (menor = más sensible)
+- **Cooldown** — tiempo mínimo entre sonidos (ms)
+- **Speed** — velocidad de reproducción
+- **Volume Scaling** — golpe más fuerte = más volumen
+- **Fast Mode** — cooldown corto, alta sensibilidad
+
+---
+
+## Compilar desde código fuente
 
 ```bash
 git clone https://github.com/joelosiris11/josespank.git
 cd josespank
-make app        # builds SpankApp.app
-make dmg        # builds SpankApp.dmg (for distribution)
+make app        # genera SpankApp.app
+make dmg        # genera SpankApp.dmg para distribuir
 ```
 
-## Modes
-
-| Mode | Description |
-|------|-------------|
-| Normal | Default spank sounds |
-| Sexy | Escalating intensity |
-| Halo | Halo soundtrack clips |
-| Lizard | Like Sexy but lizard-themed |
-| Custom | Your own MP3s (yamete-kudasai included) |
-
-## Settings
-
-- **Sensitivity** — how hard you need to slap (lower = more sensitive)
-- **Cooldown** — minimum time between sounds (ms)
-- **Speed** — playback rate
-- **Volume Scaling** — harder slap = louder sound
-- **Fast Mode** — shorter cooldown, higher sensitivity
-
-## How Setup works
-
-Setup installs `spank` to `/usr/local/bin/spank` and adds a sudoers entry so the app can run it as root (required for IOKit accelerometer access) without asking for your password every time.
+Requiere Xcode Command Line Tools:
+```bash
+xcode-select --install
+```

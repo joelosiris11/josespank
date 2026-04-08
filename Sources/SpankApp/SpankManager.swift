@@ -115,7 +115,7 @@ class SpankManager: ObservableObject {
         let spankSrc = bundledSpank.path
         let sudoersContent = "ALL ALL=(root) NOPASSWD: \(Self.installedBinary)"
         let script = """
-        do shell script "cp '\(spankSrc)' '\(Self.installedBinary)' && chmod +x '\(Self.installedBinary)' && echo '\(sudoersContent)' > '\(Self.sudoersFile)' && chmod 440 '\(Self.sudoersFile)'" with administrator privileges
+        do shell script "mkdir -p /usr/local/bin && cp '\(spankSrc)' '\(Self.installedBinary)' && chmod +x '\(Self.installedBinary)' && mkdir -p /private/etc/sudoers.d && echo '\(sudoersContent)' > '\(Self.sudoersFile)' && chmod 440 '\(Self.sudoersFile)'" with administrator privileges
         """
         runOsascript(script) { [weak self] ok, err in
             if ok {
